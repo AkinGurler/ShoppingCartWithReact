@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { sepettenCıkar } from "../actions";
 
-const Cart = (props) => {
-  console.log("carts:", props.cart);
-  const totalPrice = props.cart.reduce(
-    (total, item) => (total += item.price),
-    0
-  );
+const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const totalPrice = cart.reduce((total, item) => (total += item.price), 0);
   return (
     <div>
       <h2>
@@ -17,7 +16,7 @@ const Cart = (props) => {
 
       <h3>Toplam Sepet Tutarı: &#8378;{totalPrice.toFixed(2)}</h3>
 
-      {props.cart.map((book) => (
+      {cart.map((book) => (
         <div key={book.id} className="book">
           <img src={book.image} alt={book.name} />
           <div>
@@ -25,7 +24,7 @@ const Cart = (props) => {
             <p>Yazar: {book.author}</p>
             <p>Fiyat: &#8378;{book.price}</p>
 
-            <button onClick={() => props.sepettenCıkar(book.id)}>
+            <button onClick={() => dispatch(sepettenCıkar(book.id))}>
               Sepetten Çıkar
             </button>
           </div>
@@ -35,10 +34,4 @@ const Cart = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cart: state.cart
-  };
-};
-
-export default connect(mapStateToProps, { sepettenCıkar })(Cart);
+export default Cart;

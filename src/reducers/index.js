@@ -1,5 +1,4 @@
 import { data } from "../data";
-import { SEPETTEN_CIKAR } from "../actions";
 
 const INITIAL_STATE = {
   bookList: data,
